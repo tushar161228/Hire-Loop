@@ -17,7 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
-  origin: "https://hire-loop-psi.vercel.app",
+  origin: [
+    "https://hire-loop-psi.vercel.app",
+    "https://hire-loop-git-main-tushar-78f4.vercel.app",
+    "https://hire-loop-2czsrylq6-tushar-78f4.vercel.app",
+  ],
   credentials: true,
 };
 
