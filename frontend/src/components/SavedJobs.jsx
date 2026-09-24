@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux'
 import { Bookmark } from 'lucide-react'
 import useGetAllJobs from '@/hooks/useGetAllJobs'
 
-const getSavedJobIds = () => {
+const getSavedJobIds = (userId) => {
     try {
-        return JSON.parse(localStorage.getItem('savedJobs')) || [];
+        return JSON.parse(localStorage.getItem(`savedJobs_${userId}`)) || [];
     } catch {
         return [];
     }
@@ -16,13 +16,15 @@ const getSavedJobIds = () => {
 const SavedJobs = () => {
     useGetAllJobs();
     const { allJobs } = useSelector(store => store.job);
+    const { user } = useSelector(store => store.auth);
     const [savedJobs, setSavedJobs] = useState([]);
 
     useEffect(() => {
-        const ids = getSavedJobIds();
+        if (!user?._id) return;
+        const ids = getSavedJobIds(user._id);
         const filtered = allJobs.filter((job) => ids.includes(job._id));
         setSavedJobs(filtered);
-    }, [allJobs]);
+    }, [allJobs, user?._id]);
 
     return (
         <div className='dark:bg-gray-950 min-h-screen transition-colors'>
